@@ -4,9 +4,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import WorkoutDetails from "@/components/WorkoutDetails";
 import Loading from "@/components/Loading";
+import { useFitLog } from "@/context/FitLogContext";
 
 export default function WorkoutPage() {
   const params = useParams();
+
+  const { addToPlan, saveWorkout } = useFitLog();
 
   const [workout, setWorkout] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -75,11 +78,15 @@ export default function WorkoutPage() {
   }
 
   const handleAddToPlan = () => {
-    console.log("Add to plan:", workout);
+    const result = addToPlan(workout);
+
+    console.log(result.message);
   };
 
   const handleSave = () => {
-    console.log("Save workout:", workout);
+    const result = saveWorkout(workout);
+
+    console.log(result.message);
   };
 
   return (
