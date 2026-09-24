@@ -1,44 +1,41 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import WorkoutGrid from "@/components/WorkoutGrid";
-import Loading from "@/components/Loading";
 
-export default function Home() {
-  const [workouts, setWorkouts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const fetchWorkouts = async () => {
-      try {
-        setLoading(true);
-
-        const response = await fetch(
-          "https://api.abcz.workers.dev/api/fitlog"
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to load workouts");
-        }
-
-        const data = await response.json();
-
-        console.log("API DATA:", data);
-
-        setWorkouts(data);
-      } catch (err) {
-        console.error(err);
-        setError("Unable to load workouts.");
-      } finally {
-        setLoading(false);
+async function getWorkouts() {
+  try {
+    const response = await fetch(
+      "https://api.abcz.workers.dev/api/fitlog",
+      {
+        cache: "no-store",
       }
-    };
+    );
 
-    fetchWorkouts();
-  }, []);
+    if (!response.ok) {
+      throw new Error("Failed to fetch workouts");
+    }
+
+    const data = await response.json();
+
+    // API যদি সরাসরি array দেয়
+    if (Array.isArray(data)) {
+      return data;
+    }
+
+    // API যদি { data: [...] } দেয়
+    if (Array.isArray(data.data)) {
+      return data.data;
+    }
+
+    return [];
+  } catch (error) {
+    console.error("Workout API Error:", error);
+    return [];
+  }
+}
+
+export default async function Home() {
+  const workouts = await getWorkouts();
 
   return (
     <main className="min-h-screen bg-[#090909] text-white">
@@ -46,7 +43,6 @@ export default function Home() {
 
       <Hero />
 
-      {/* Library */}
       <section
         id="library"
         className="border-t border-white/10 px-5 py-20 sm:px-8 lg:px-10 lg:py-28"
@@ -74,22 +70,21 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Loading */}
-          {loading && <Loading />}
+          {/* Workout cards */}
+          {workouts.length > 0 ? (
+            <WorkoutGrid workouts={workouts} />
+          ) : (
+            <div className="rounded-2xl border border-white/10 bg-[#111] py-20 text-center">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-zinc-500">
+                Unable to load workouts
+              </p>
 
-          {/* Error */}
-          {!loading && error && (
-            <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-8 text-center">
-              <p className="text-sm font-bold uppercase text-red-400">
-                {error}
+              <p className="mt-3 text-xs text-zinc-600">
+                Please refresh the page and try again.
               </p>
             </div>
           )}
 
-          {/* Workouts */}
-          {!loading && !error && (
-            <WorkoutGrid workouts={workouts} />
-          )}
         </div>
       </section>
     </main>
