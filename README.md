@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# FitLog
 
-## Getting Started
+FitLog holo ekta simple workout library website. Eikhane different workout dekha jay, workout er details dekha jay, workout ke today's plan e add kora jay and pore use korar jonno save kore rakha jay.
 
-First, run the development server:
+Ami ei project ta Next.js, Tailwind CSS and API use kore banaici.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+##  Technologies I Used
 
-## Learn More
+- Next.js
+- React
+- JavaScript
+- Tailwind CSS
+- Lucide React
+- React Toastify
+- REST API
+- LocalStorage
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+##  Main Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 1. Workout Library
 
-## Deploy on Vercel
+Home page e API theke workout gula load hoy. Prottek workout card e image, category, equipment, duration, calories and rating dekhano hoy.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 2. Workout Details
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Kono workout card e click korle oi workout er details page e jawa jay. Eikhane workout er image, description, equipment, difficulty, sets, reps, duration, calories, rating and instructions dekhte parbo.
+
+### 3. Today's Plan
+
+Workout details page theke workout ke `Add to today's plan` button diye amar daily plan e add korte parbo. Maximum 5 ta workout add kora jay.
+
+### 4. Save for Later
+
+Jodi kono workout pore korte chai tahole `Save for later` button diye saved list e rakhte parbo.
+
+### 5. My Plan
+
+My Plan page theke amar Today's Plan and Saved workout gula dekhte parbo. Eikhane total exercises, minutes and calories er summary o dekhay.
+
+### 6. Mark as Done
+
+Today's Plan er kono workout complete korle `Mark as Done` button e click kore workout ta done korte parbo.
+
+### 7. Remove Workout
+
+Plan ba Saved list theke workout remove korar jonno remove button use kora jay.
+
+### 8. Sort Workout
+
+Workout gula Duration, Calories and Rating diye sort kora jay.
+
+### 9. Responsive Design
+
+Website ta mobile, tablet and desktop sob screen size er jonno responsive kora hoyeche.
+
+### 10. Local Storage
+
+Plan and Saved workout gula localStorage e save hoy, tai page reload korleo data thake.
+
+---
+
+##  API I Used
+
+Ami FitLog er workout data anar jonno ei API use korechi.
+
+### All Workout Data
+
+https://api.abcz.workers.dev/api/fitlog
+
+### Single Workout Data
+
+https://api.abcz.workers.dev/api/fitlog/:id
+
+---
+
+## Responsive
+
+Ei website ta ami responsive korar try korechi jate:
+
+- Mobile e valo vabe dekha jay
+- Tablet e valo vabe dekha jay
+- Desktop e valo vabe dekha jay
+
+---
+
+## What I Learned
+
+Ei project korte giye ami Next.js er App Router, API theke data fetch kora, component banano, props and state use kora, localStorage use kora and Tailwind CSS diye responsive design kora shikhechi.
+
+---
+
+##  About The Project
+
+Eta amar assignment project. Ami requirement gula follow kore FitLog workout library bananor try korechi.
+
+Made with  and lots of practice.

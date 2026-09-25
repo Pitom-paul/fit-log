@@ -2,6 +2,7 @@ import "./globals.css";
 import { FitLogProvider } from "@/context/FitLogContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "FitLog — Workout Library",
@@ -15,10 +16,11 @@ export default function RootLayout({ children }) {
         <FitLogProvider>
           {children}
 
+          <Footer />
+
           <ToastContainer
             position="bottom-right"
             autoClose={2500}
-            hideProgressBar={false}
             newestOnTop
             closeOnClick
             pauseOnHover
