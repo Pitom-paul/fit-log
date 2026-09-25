@@ -11,13 +11,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-[#090909] text-white antialiased">
         <FitLogProvider>
           {children}
 
           <ToastContainer
             position="bottom-right"
             autoClose={2500}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            pauseOnHover
+            draggable
             theme="dark"
           />
         </FitLogProvider>

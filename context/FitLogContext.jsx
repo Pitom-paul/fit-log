@@ -2,14 +2,14 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-const FitLogContext = createContext();
+const FitLogContext = createContext(null);
 
 export function FitLogProvider({ children }) {
   const [plan, setPlan] = useState([]);
   const [saved, setSaved] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
-  // Load saved data from localStorage
+  // Load from localStorage
   useEffect(() => {
     try {
       const storedPlan = localStorage.getItem("fitlog-plan");
@@ -23,7 +23,7 @@ export function FitLogProvider({ children }) {
         setSaved(JSON.parse(storedSaved));
       }
     } catch (error) {
-      console.error("Failed to load FitLog data:", error);
+      console.error("FitLog localStorage error:", error);
     } finally {
       setLoaded(true);
     }
@@ -31,19 +31,19 @@ export function FitLogProvider({ children }) {
 
   // Save plan
   useEffect(() => {
-    if (loaded) {
-      localStorage.setItem("fitlog-plan", JSON.stringify(plan));
-    }
+    if (!loaded) return;
+
+    localStorage.setItem("fitlog-plan", JSON.stringify(plan));
   }, [plan, loaded]);
 
   // Save saved workouts
   useEffect(() => {
-    if (loaded) {
-      localStorage.setItem("fitlog-saved", JSON.stringify(saved));
-    }
+    if (!loaded) return;
+
+    localStorage.setItem("fitlog-saved", JSON.stringify(saved));
   }, [saved, loaded]);
 
-  // Add workout to today's plan
+  // Add to today's plan
   const addToPlan = (workout) => {
     if (plan.length >= 5) {
       return {
@@ -52,9 +52,9 @@ export function FitLogProvider({ children }) {
       };
     }
 
-    const alreadyExists = plan.some((item) => item.id === workout.id);
+    const exists = plan.some((item) => item.id === workout.id);
 
-    if (alreadyExists) {
+    if (exists) {
       return {
         success: false,
         message: "Workout is already in today's plan.",
@@ -77,9 +77,9 @@ export function FitLogProvider({ children }) {
 
   // Save workout
   const saveWorkout = (workout) => {
-    const alreadySaved = saved.some((item) => item.id === workout.id);
+    const exists = saved.some((item) => item.id === workout.id);
 
-    if (alreadySaved) {
+    if (exists) {
       return {
         success: false,
         message: "Workout is already saved.",
@@ -94,45 +94,47 @@ export function FitLogProvider({ children }) {
     };
   };
 
-  // Remove from plan
+  // Remove from today's plan
   const removeFromPlan = (id) => {
     setPlan((current) => current.filter((item) => item.id !== id));
   };
 
-  // Remove from saved
+  // Remove saved workout
   const removeFromSaved = (id) => {
     setSaved((current) => current.filter((item) => item.id !== id));
   };
 
-  // Mark workout as done
+  // Mark as done
   const markAsDone = (id) => {
     setPlan((current) =>
       current.map((item) =>
         item.id === id
           ? {
               ...item,
-              done: true,
+              done: !item.done,
             }
           : item
       )
     );
   };
 
-  const value = {
-    plan,
-    saved,
-    loaded,
-    planCount: plan.length,
-    savedCount: saved.length,
-    addToPlan,
-    saveWorkout,
-    removeFromPlan,
-    removeFromSaved,
-    markAsDone,
-  };
-
   return (
-    <FitLogContext.Provider value={value}>
+    <FitLogContext.Provider
+      value={{
+        plan,
+        saved,
+        loaded,
+
+        planCount: plan.length,
+        savedCount: saved.length,
+
+        addToPlan,
+        saveWorkout,
+        removeFromPlan,
+        removeFromSaved,
+        markAsDone,
+      }}
+    >
       {children}
     </FitLogContext.Provider>
   );
